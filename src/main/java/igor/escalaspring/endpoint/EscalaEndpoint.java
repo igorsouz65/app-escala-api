@@ -24,9 +24,13 @@ import igor.escalaspring.model.Pessoa;
 import igor.escalaspring.repository.EscalaRepository;
 import igor.escalaspring.repository.PessoaRepository;
 import igor.escalaspring.service.EscalaService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("v1")
+@Api(value="Escala API")
+//@CrossOringin(origins="*")
 public class EscalaEndpoint {
 
 	private EscalaRepository escalaDAO;
@@ -43,11 +47,13 @@ public class EscalaEndpoint {
 	}
 	
 	@GetMapping(path = "escalas")
+	@ApiOperation(value="Retorna uma lista de escalas")
 	public ResponseEntity<?> listAll() {
 		return new ResponseEntity<>(escalaDAO.findAll(Sort.by("id").ascending()), HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "escalas/{id}")
+	@ApiOperation(value="Retorna uma unica escala")
 	public ResponseEntity<?> get(@PathVariable Long id){
 		return new ResponseEntity<>(escalaDAO.findById(id), HttpStatus.OK);
 	}
@@ -55,12 +61,14 @@ public class EscalaEndpoint {
 //	@PostMapping(path = "admin/escalas")
 	@PostMapping(path = "/escalas")
 	@Transactional(rollbackFor = Exception.class)
+	@ApiOperation(value="Salva uma escala")
 	public ResponseEntity<?> save(@Valid @RequestBody Escala escala) {
 		return new ResponseEntity<>(escalaDAO.save(escala), HttpStatus.CREATED);
 	}
 	
 //	@PutMapping(path = "admin/escalas")
 	@PutMapping(path = "/escalas")
+	@ApiOperation(value="Atualiza uma escala")
 	public ResponseEntity<?> update(@RequestBody Escala escala) {
 		verifyIfEscalaExists(escala.getId());
 		escalaDAO.save(escala);
@@ -69,7 +77,7 @@ public class EscalaEndpoint {
 	}
 	
 //	@PutMapping(path = "admin/escalas/pessoaescala/{id}")
-	@PutMapping(path = "/escalas/pessoaescala/{id}")
+/*	@PutMapping(path = "/escalas/pessoaescala/{id}")
 	public ResponseEntity<?> addPessoaEscala(@PathVariable Long id, @RequestBody Escala escala) {
 		verifyIfEscalaExists(escala.getId());
 		List<Pessoa> pessoas = new ArrayList<Pessoa>();
@@ -80,8 +88,10 @@ public class EscalaEndpoint {
 		return new ResponseEntity<>(HttpStatus.OK);
 		
 	}
+	*/
 	
 	@PutMapping(path = "/escalas/{escalas_id}/pessoa/{pessoas_id}")
+	@ApiOperation(value="Adiciona uma pessoa uma escala")
 	public ResponseEntity<?> add2PessoaEscala(@PathVariable Long escalas_id, @PathVariable Long pessoas_id) {
 		escalaService.adicionarPessoaEscala(escalas_id, pessoas_id);
 		return new ResponseEntity<>(HttpStatus.OK);
