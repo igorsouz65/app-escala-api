@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import igor.escalaspring.error.ResourceNotFoundException;
 import igor.escalaspring.model.Local;
 import igor.escalaspring.repository.LocalRepository;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("v1")
@@ -37,12 +38,14 @@ public class LocalEndpoint {
 
 	//@GetMapping(path = "protected/local")
 	@GetMapping(path = "/local")
+	@ApiOperation(value="Retorna um local")
 	public ResponseEntity<?> listAll() {
 		return new ResponseEntity<>(localDAO.findAll(Sort.by("id").ascending()), HttpStatus.OK);
 	}
 
 	//@GetMapping(path = "protected/local/{id}")
 	@GetMapping(path = "/local/{id}")
+	@ApiOperation(value="Retorna um local pelo ID")
 	public ResponseEntity<?> getPersonById(@PathVariable("id") Long id, Authentication authentication) {
 		System.out.println(authentication);
 		Optional<Local> local = localDAO.findById(id);
@@ -52,6 +55,7 @@ public class LocalEndpoint {
 	
 	//@GetMapping(path = "protected/local/findByNome/{nome}")
 	@GetMapping(path = "/local/findByNome/{nome}")
+	@ApiOperation(value="Retorna um local pelo nome")
 	public ResponseEntity<?> findPersonByNome(@PathVariable String nome){
 		return new ResponseEntity<>(localDAO.findByNomeIgnoreCaseContaining(nome), HttpStatus.OK);
 	}
@@ -59,6 +63,7 @@ public class LocalEndpoint {
 //	@PostMapping(path = "admin/local")
 	@PostMapping(path = "/local")
 	@Transactional(rollbackFor = Exception.class)
+	@ApiOperation(value="Cria um local")
 	public ResponseEntity<?> save(@Valid @RequestBody Local local) {
 		return new ResponseEntity<>(localDAO.save(local), HttpStatus.CREATED);
 	}
@@ -66,6 +71,7 @@ public class LocalEndpoint {
 //	@DeleteMapping(path = "admin/local/{id}")
 	@DeleteMapping(path = "/local/{id}")
 	//@PreAuthorize("hasRole('ADMIN')")
+	@ApiOperation(value="Exclui um local")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		verifyIfLocalExists(id);
 		localDAO.deleteById(id);
@@ -74,6 +80,7 @@ public class LocalEndpoint {
 
 //	@PutMapping(path = "admin/local")
 	@PutMapping(path = "/local")
+	@ApiOperation(value="Atualiza um local")
 	public ResponseEntity<?> update(@RequestBody Local local) {
 		verifyIfLocalExists(local.getId());
 		localDAO.save(local);

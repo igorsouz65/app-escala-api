@@ -1,8 +1,5 @@
 package igor.escalaspring.endpoint;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import igor.escalaspring.error.ResourceNotFoundException;
 import igor.escalaspring.model.Escala;
-import igor.escalaspring.model.Pessoa;
 import igor.escalaspring.repository.EscalaRepository;
 import igor.escalaspring.repository.PessoaRepository;
 import igor.escalaspring.service.EscalaService;
@@ -34,7 +31,6 @@ import io.swagger.annotations.ApiOperation;
 public class EscalaEndpoint {
 
 	private EscalaRepository escalaDAO;
-	private PessoaRepository pessoaDAO;
 	
 	@Autowired
 	private EscalaService escalaService;
@@ -43,7 +39,7 @@ public class EscalaEndpoint {
 	public EscalaEndpoint(EscalaRepository escalaDAO, PessoaRepository pessoaDAO) {
 		super();
 		this.escalaDAO = escalaDAO;
-		this.pessoaDAO = pessoaDAO;
+
 	}
 	
 	@GetMapping(path = "escalas")
@@ -56,6 +52,12 @@ public class EscalaEndpoint {
 	@ApiOperation(value="Retorna uma unica escala")
 	public ResponseEntity<?> get(@PathVariable Long id){
 		return new ResponseEntity<>(escalaDAO.findById(id), HttpStatus.OK);
+	}
+	
+	@GetMapping(path = "/escalas/findByNome/{nome}")
+	@ApiOperation(value="Retorna uma escala pelo nome")
+	public ResponseEntity<?> findEscalaByNome(@PathVariable String nome){
+		return new ResponseEntity<>(escalaDAO.findByNomeIgnoreCaseContaining(nome), HttpStatus.OK);
 	}
 	
 //	@PostMapping(path = "admin/escalas")
@@ -94,6 +96,15 @@ public class EscalaEndpoint {
 	@ApiOperation(value="Adiciona uma pessoa uma escala")
 	public ResponseEntity<?> add2PessoaEscala(@PathVariable Long escalas_id, @PathVariable Long pessoas_id) {
 		escalaService.adicionarPessoaEscala(escalas_id, pessoas_id);
+		return new ResponseEntity<>(HttpStatus.OK);
+		
+	}
+	
+	@DeleteMapping(path = "/escalas/{id}")
+	@ApiOperation(value="Exclui uma escala")
+	public ResponseEntity<?> delete(@PathVariable Long id){
+		verifyIfEscalaExists(id);
+		escalaDAO.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 		
 	}

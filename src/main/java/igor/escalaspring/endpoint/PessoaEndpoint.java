@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import igor.escalaspring.error.ResourceNotFoundException;
 import igor.escalaspring.model.Pessoa;
 import igor.escalaspring.repository.PessoaRepository;
+import igor.escalaspring.service.PessoaService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("v1")
@@ -34,15 +36,19 @@ public class PessoaEndpoint {
 		super();
 		this.pessoaDAO = pessoaDAO;
 	}
+	
+	private PessoaService pessoaService;
 
 	//@GetMapping(path = "protected/pessoas")
 	@GetMapping(path = "/pessoas")
+	@ApiOperation(value="Retorna uma lista de pessoas")
 	public ResponseEntity<?> listAll() {
 		return new ResponseEntity<>(pessoaDAO.findAll(Sort.by("id").ascending()), HttpStatus.OK);
 	}
 
 //	@GetMapping(path = "protected/pessoas/{id}")
 	@GetMapping(path = "/pessoas/{id}")
+	@ApiOperation(value="retorna uma pessoa pelo ID")
 	public ResponseEntity<?> getPersonById(@PathVariable("id") Long id, Authentication authentication) {
 		System.out.println(authentication);
 		Optional<Pessoa> pessoa = pessoaDAO.findById(id);
@@ -52,6 +58,7 @@ public class PessoaEndpoint {
 	
 //	@GetMapping(path = "protected/pessoas/findByNome/{nome}")
 	@GetMapping(path = "/pessoas/findByNome/{nome}")
+	@ApiOperation(value="Retorna uma pessoa pelo nome")
 	public ResponseEntity<?> findPersonByNome(@PathVariable String nome){
 		return new ResponseEntity<>(pessoaDAO.findByNomeIgnoreCaseContaining(nome), HttpStatus.OK);
 	}
@@ -59,6 +66,7 @@ public class PessoaEndpoint {
 //	@PostMapping(path = "admin/pessoas")
 	@PostMapping(path = "/pessoas")
 	@Transactional(rollbackFor = Exception.class)
+	@ApiOperation(value="Adiciona uma pessoa")
 	public ResponseEntity<?> save(@Valid @RequestBody Pessoa pessoa) {
 		return new ResponseEntity<>(pessoaDAO.save(pessoa), HttpStatus.CREATED);
 	}
@@ -66,6 +74,7 @@ public class PessoaEndpoint {
 //	@DeleteMapping(path = "admin/pessoas/{id}")
 	@DeleteMapping(path = "/pessoas/{id}")
 	//@PreAuthorize("hasRole('ADMIN')")
+	@ApiOperation(value="Exclui uma pessoa")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		verifyIfPessoaExists(id);
 		pessoaDAO.deleteById(id);
@@ -74,10 +83,19 @@ public class PessoaEndpoint {
 
 //	@PutMapping(path = "admin/pessoas")
 	@PutMapping(path = "/pessoas")
+	@ApiOperation(value="Atualiza uma pessoa")
 	public ResponseEntity<?> update(@RequestBody Pessoa pessoa) {
 		verifyIfPessoaExists(pessoa.getId());
 		pessoaDAO.save(pessoa);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PutMapping(path = "/pessoas/{pessoas_id}/local/{local_id}")
+	@ApiOperation(value="Adiciona um local para uma pessoa")
+	public ResponseEntity<?> addLocalPessoa(@PathVariable Long pessoa_id, @PathVariable Long local_id){
+		pessoaService.adicionarLocalPessoa(pessoa_id, local_id);
+		return new ResponseEntity<>(HttpStatus.OK);
+		
 	}
 
 	private void verifyIfPessoaExists(Long id) {
