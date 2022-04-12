@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,6 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("v1")
 @Api(value="Escala API")
-//@CrossOringin(origins="*")
 public class EscalaEndpoint {
 
 	private EscalaRepository escalaDAO;
@@ -48,7 +48,7 @@ public class EscalaEndpoint {
 		return new ResponseEntity<>(escalaDAO.findAll(Sort.by("id").ascending()), HttpStatus.OK);
 	}
 	
-	@GetMapping(path = "escalas/{id}")
+	@GetMapping(path = "admin/escalas/{id}")
 	@ApiOperation(value="Retorna uma unica escala")
 	public ResponseEntity<?> get(@PathVariable Long id){
 		return new ResponseEntity<>(escalaDAO.findById(id), HttpStatus.OK);
@@ -60,6 +60,7 @@ public class EscalaEndpoint {
 		return new ResponseEntity<>(escalaDAO.findByNomeIgnoreCaseContaining(nome), HttpStatus.OK);
 	}
 	
+	@CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 //	@PostMapping(path = "admin/escalas")
 	@PostMapping(path = "/escalas")
 	@Transactional(rollbackFor = Exception.class)
@@ -68,8 +69,9 @@ public class EscalaEndpoint {
 		return new ResponseEntity<>(escalaDAO.save(escala), HttpStatus.CREATED);
 	}
 	
-//	@PutMapping(path = "admin/escalas")
-	@PutMapping(path = "/escalas")
+	@CrossOrigin
+	@PutMapping(path = "admin/escalas")
+//	@PutMapping(path = "/escalas")
 	@ApiOperation(value="Atualiza uma escala")
 	public ResponseEntity<?> update(@RequestBody Escala escala) {
 		verifyIfEscalaExists(escala.getId());
@@ -92,6 +94,8 @@ public class EscalaEndpoint {
 	}
 	*/
 	
+	@CrossOrigin
+//	@PutMapping(path = "admin/escalas/{escalas_id}/pessoa/{pessoas_id}")
 	@PutMapping(path = "/escalas/{escalas_id}/pessoa/{pessoas_id}")
 	@ApiOperation(value="Adiciona uma pessoa uma escala")
 	public ResponseEntity<?> add2PessoaEscala(@PathVariable Long escalas_id, @PathVariable Long pessoas_id) {
@@ -100,7 +104,8 @@ public class EscalaEndpoint {
 		
 	}
 	
-	@DeleteMapping(path = "/escalas/{id}")
+	@CrossOrigin
+	@DeleteMapping(path = "admin/escalas/{id}")
 	@ApiOperation(value="Exclui uma escala")
 	public ResponseEntity<?> delete(@PathVariable Long id){
 		verifyIfEscalaExists(id);

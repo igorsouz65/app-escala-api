@@ -39,15 +39,15 @@ public class PessoaEndpoint {
 	
 	private PessoaService pessoaService;
 
-	//@GetMapping(path = "protected/pessoas")
+//	@GetMapping(path = "protected/pessoas")
 	@GetMapping(path = "/pessoas")
 	@ApiOperation(value="Retorna uma lista de pessoas")
 	public ResponseEntity<?> listAll() {
 		return new ResponseEntity<>(pessoaDAO.findAll(Sort.by("id").ascending()), HttpStatus.OK);
 	}
 
-//	@GetMapping(path = "protected/pessoas/{id}")
-	@GetMapping(path = "/pessoas/{id}")
+	@GetMapping(path = "protected/pessoas/{id}")
+//	@GetMapping(path = "/pessoas/{id}")
 	@ApiOperation(value="retorna uma pessoa pelo ID")
 	public ResponseEntity<?> getPersonById(@PathVariable("id") Long id, Authentication authentication) {
 		System.out.println(authentication);
@@ -56,23 +56,23 @@ public class PessoaEndpoint {
 		return new ResponseEntity<>(pessoa, HttpStatus.OK);
 	}
 	
-//	@GetMapping(path = "protected/pessoas/findByNome/{nome}")
-	@GetMapping(path = "/pessoas/findByNome/{nome}")
+	@GetMapping(path = "protected/pessoas/findByNome/{nome}")
+//	@GetMapping(path = "/pessoas/findByNome/{nome}")
 	@ApiOperation(value="Retorna uma pessoa pelo nome")
 	public ResponseEntity<?> findPersonByNome(@PathVariable String nome){
 		return new ResponseEntity<>(pessoaDAO.findByNomeIgnoreCaseContaining(nome), HttpStatus.OK);
 	}
 
-//	@PostMapping(path = "admin/pessoas")
-	@PostMapping(path = "/pessoas")
+	@PostMapping(path = "admin/pessoas")
+//	@PostMapping(path = "/pessoas")
 	@Transactional(rollbackFor = Exception.class)
 	@ApiOperation(value="Adiciona uma pessoa")
 	public ResponseEntity<?> save(@Valid @RequestBody Pessoa pessoa) {
 		return new ResponseEntity<>(pessoaDAO.save(pessoa), HttpStatus.CREATED);
 	}
 
-//	@DeleteMapping(path = "admin/pessoas/{id}")
-	@DeleteMapping(path = "/pessoas/{id}")
+	@DeleteMapping(path = "admin/pessoas/{id}")
+//	@DeleteMapping(path = "/pessoas/{id}")
 	//@PreAuthorize("hasRole('ADMIN')")
 	@ApiOperation(value="Exclui uma pessoa")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
@@ -81,8 +81,8 @@ public class PessoaEndpoint {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-//	@PutMapping(path = "admin/pessoas")
-	@PutMapping(path = "/pessoas")
+	@PutMapping(path = "admin/pessoas")
+//	@PutMapping(path = "/pessoas")
 	@ApiOperation(value="Atualiza uma pessoa")
 	public ResponseEntity<?> update(@RequestBody Pessoa pessoa) {
 		verifyIfPessoaExists(pessoa.getId());
@@ -90,7 +90,7 @@ public class PessoaEndpoint {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@PutMapping(path = "/pessoas/{pessoas_id}/local/{local_id}")
+	@PutMapping(path = "admin/pessoas/{pessoas_id}/local/{local_id}")
 	@ApiOperation(value="Adiciona um local para uma pessoa")
 	public ResponseEntity<?> addLocalPessoa(@PathVariable Long pessoa_id, @PathVariable Long local_id){
 		pessoaService.adicionarLocalPessoa(pessoa_id, local_id);
