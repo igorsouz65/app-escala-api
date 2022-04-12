@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, SecurityConstants.SIGN_UP_URL).permitAll()
 				.antMatchers("/*/protected/**").hasRole("USER")
 				.antMatchers("/*/admin/**").hasRole("ADMIN")
+				.antMatchers("/v1/**").permitAll()
 				.and()
 				.addFilter(new JWTAuthenticationFilter(authenticationManager()))
 				.addFilter(new JWTAuthorizationFilter(authenticationManager(), customUserDetailsService));
