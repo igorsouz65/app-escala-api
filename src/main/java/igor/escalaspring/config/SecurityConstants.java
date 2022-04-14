@@ -3,7 +3,7 @@ package igor.escalaspring.config;
 import java.util.concurrent.TimeUnit;
 
 public class SecurityConstants {
-	static final String SECRET = "Capivara";
+	static final String SECRET = "DevDojo";
 	static final String TOKEN_PREFIX = "Bearer ";
 	static final String HEADER_STRING = "Authorization";
 	static final String SIGN_UP_URL = "/users/sign-up";
