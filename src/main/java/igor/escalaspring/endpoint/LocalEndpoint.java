@@ -90,7 +90,7 @@ public class LocalEndpoint {
 	private void verifyIfLocalExists(Long id) {
 
 		if (!localDAO.findById(id).isPresent())
-			throw new ResourceNotFoundException("Pessoa not found for ID: " + id);
+			throw new ResourceNotFoundException("Local not found for ID: " + id);
 	}
 	
 }

@@ -57,9 +57,9 @@ public class EscalaEndpoint {
 	public ResponseEntity<?> get(@PathVariable Long id){
 		return new ResponseEntity<>(escalaDAO.findById(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping(path = "/escalas/findByNome/{nome}")
-	@ApiOperation(value="Retorna uma escala pelo nome")
+	@ApiOperation(value="Retorna escalas pelo nome")
 	public ResponseEntity<?> findEscalaByNome(@PathVariable String nome){
 		return new ResponseEntity<>(escalaDAO.findByNomeIgnoreCaseContaining(nome), HttpStatus.OK);
 	}
@@ -88,7 +88,7 @@ public class EscalaEndpoint {
 	@PutMapping(path = "/escalas")
 	@ApiOperation(value="Atualiza uma escala")
 	public ResponseEntity<?> update(@RequestBody Escala escala) {
-		verifyIfEscalaExists(escala.getId());
+		escalaService.verifyIfEscalaExists(escala.getId());
 		escalaDAO.save(escala);
 		return new ResponseEntity<>(HttpStatus.OK);
 		
@@ -109,11 +109,19 @@ public class EscalaEndpoint {
 	*/
 	
 	@PutMapping(path = "/escalas/{escalas_id}/pessoa/{pessoas_id}")
-	@ApiOperation(value="Adiciona uma pessoa uma escala")
-	public ResponseEntity<?> add2PessoaEscala(@PathVariable Long escalas_id, @PathVariable Long pessoas_id) {
+	@ApiOperation(value="Adiciona uma pessoa a uma escala")
+	public ResponseEntity<?> addPessoaEscala(@PathVariable Long escalas_id, @PathVariable Long pessoas_id) {
 		escalaService.adicionarPessoaEscala(escalas_id, pessoas_id);
 		return new ResponseEntity<>(HttpStatus.OK);
 		
+	}
+
+	@PutMapping(path = "/escalas/{escalas_id}/local/{local_id}")
+	@ApiOperation(value="Adiciona um local a uma escala")
+	public ResponseEntity<?> addLocalEscala(@PathVariable Long escalas_id, @PathVariable Long local_id) {
+		escalaService.adicionarLocalEscala(escalas_id, local_id);
+		return new ResponseEntity<>(HttpStatus.OK);
+
 	}
 
 
@@ -121,20 +129,30 @@ public class EscalaEndpoint {
 
 
 	@DeleteMapping(path = "/escalas/{id}")
-	@ApiOperation(value="Exclui uma escala")
+	@ApiOperation(value="Remove uma escala")
 	public ResponseEntity<?> delete(@PathVariable Long id){
-		verifyIfEscalaExists(id);
+		escalaService.verifyIfEscalaExists(id);
 		escalaDAO.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 		
 	}
-	
-	
-	
-	private void verifyIfEscalaExists(Long id) {
 
-		if (!escalaDAO.findById(id).isPresent())
-			throw new ResourceNotFoundException("Escala not found for ID: " + id);
+
+	@DeleteMapping(path = "/escalas/{escalas_id}/local/{local_id}")
+	@ApiOperation(value="Remove um local de uma escala")
+	public ResponseEntity<?> removeLocalEscala(@PathVariable Long escalas_id, @PathVariable Long local_id) {
+		escalaService.removerLocalEscala(escalas_id, local_id);
+		return new ResponseEntity<>(HttpStatus.OK);
+
 	}
+
+	@DeleteMapping(path = "/escalas/{escalas_id}/pessoa/{pessoas_id}")
+	@ApiOperation(value="Remove uma pessoa de uma escala")
+	public ResponseEntity<?> removePessoaEscala(@PathVariable Long escalas_id, @PathVariable Long pessoas_id) {
+		escalaService.removerPessoalEscala(escalas_id, pessoas_id);
+		return new ResponseEntity<>(HttpStatus.OK);
+
+	}
+
 	
 }
