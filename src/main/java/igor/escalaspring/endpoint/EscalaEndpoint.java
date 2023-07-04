@@ -24,6 +24,8 @@ import igor.escalaspring.service.EscalaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("v1")
 @Api(value="Escala API")
@@ -41,6 +43,8 @@ public class EscalaEndpoint {
 		this.escalaDAO = escalaDAO;
 
 	}
+
+	//-------------GET METHODS--------------
 	
 	@GetMapping(path = "escalas")
 	@ApiOperation(value="Retorna uma lista de escalas")
@@ -59,7 +63,15 @@ public class EscalaEndpoint {
 	public ResponseEntity<?> findEscalaByNome(@PathVariable String nome){
 		return new ResponseEntity<>(escalaDAO.findByNomeIgnoreCaseContaining(nome), HttpStatus.OK);
 	}
-	
+
+	@GetMapping(path = "/escalas/findByDate/{dataInicio}/{dataFim}")
+	@ApiOperation(value="Retorna as escalas dentro de um intervalo de datas")
+	public ResponseEntity<?> findEscalaByData(@PathVariable Date dataInicio, @PathVariable Date dataFim){
+		return new ResponseEntity<>(escalaDAO.findByDataBetween(dataInicio, dataFim), HttpStatus.OK);
+	}
+
+	//-------------POST METHODS--------------
+
 //	@PostMapping(path = "admin/escalas")
 	@PostMapping(path = "/escalas")
 	@Transactional(rollbackFor = Exception.class)
@@ -67,7 +79,11 @@ public class EscalaEndpoint {
 	public ResponseEntity<?> save(@Valid @RequestBody Escala escala) {
 		return new ResponseEntity<>(escalaDAO.save(escala), HttpStatus.CREATED);
 	}
-	
+
+
+	//-------------PUT METHODS--------------
+
+
 //	@PutMapping(path = "admin/escalas")
 	@PutMapping(path = "/escalas")
 	@ApiOperation(value="Atualiza uma escala")
@@ -99,7 +115,11 @@ public class EscalaEndpoint {
 		return new ResponseEntity<>(HttpStatus.OK);
 		
 	}
-	
+
+
+	//-------------DELETE METHODS--------------
+
+
 	@DeleteMapping(path = "/escalas/{id}")
 	@ApiOperation(value="Exclui uma escala")
 	public ResponseEntity<?> delete(@PathVariable Long id){
