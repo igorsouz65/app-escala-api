@@ -1,17 +1,24 @@
 package igor.escalaspring.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import java.io.Serializable;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @MappedSuperclass
 public class AbstractEntity implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@NotNull
+	@Length(max = 10)
+	@Pattern(regexp = "Ativo|Inativo")
+	@Column(length = 10, nullable = false)
+	private String status = "Ativo";
 
 	public Long getId() {
 		return id;
