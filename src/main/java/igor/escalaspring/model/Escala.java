@@ -1,5 +1,7 @@
 package igor.escalaspring.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -15,8 +17,10 @@ public class Escala extends AbstractEntity implements Serializable{
 
 
 	@NotEmpty(message = "O campo nome é obrigatorio!")
+	@Length(min = 5, max = 100)
 	private String nome;
-	
+
+	@NotEmpty(message = "O campo data é obrigatorio!")
 	private Date data;	
 	
 	public String getNome() {

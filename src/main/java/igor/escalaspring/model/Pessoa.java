@@ -21,11 +21,13 @@ public class Pessoa extends AbstractEntity implements Serializable{
 
 	@NotEmpty(message = "O campo nome é obrigatorio!")
 	private String nome;
-	
+
+	@NotEmpty(message = "A data de nascimento é obrigatorio!")
 	private Date dataNascimento;
 	
 	private int idade;
-	
+
+	@NotEmpty(message = "O campo telefone é obrigatorio!")
 	private String telefone;
 	
 	private String endereco;

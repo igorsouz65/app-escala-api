@@ -1,12 +1,15 @@
 package igor.escalaspring.endpoint;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import igor.escalaspring.error.ResourceNotFoundException;
@@ -19,6 +22,7 @@ import io.swagger.annotations.ApiOperation;
 
 import java.util.Date;
 
+@Validated
 @RestController
 @RequestMapping("v1")
 @Api(value="Escala API")
@@ -46,7 +50,7 @@ public class EscalaEndpoint {
 	
 	@GetMapping(path = "escalas/{id}")
 	@ApiOperation(value="Retorna uma unica escala")
-	public ResponseEntity<?> get(@PathVariable Long id){
+	public ResponseEntity<?> get(@PathVariable @NotNull @Positive Long id){
 		return new ResponseEntity<>(escalaDAO.findById(id), HttpStatus.OK);
 	}
 
@@ -102,7 +106,7 @@ public class EscalaEndpoint {
 	
 	@PutMapping(path = "/escalas/{escalas_id}/pessoa/{pessoas_id}")
 	@ApiOperation(value="Adiciona uma pessoa a uma escala")
-	public ResponseEntity<?> addPessoaEscala(@PathVariable Long escalas_id, @PathVariable Long pessoas_id) {
+	public ResponseEntity<?> addPessoaEscala(@PathVariable @NotNull @Positive Long escalas_id, @PathVariable @NotNull @Positive Long pessoas_id) {
 		escalaService.adicionarPessoaEscala(escalas_id, pessoas_id);
 		return new ResponseEntity<>(HttpStatus.OK);
 		
@@ -110,7 +114,7 @@ public class EscalaEndpoint {
 
 	@PutMapping(path = "/escalas/{escalas_id}/local/{local_id}")
 	@ApiOperation(value="Adiciona um local a uma escala")
-	public ResponseEntity<?> addLocalEscala(@PathVariable Long escalas_id, @PathVariable Long local_id) {
+	public ResponseEntity<?> addLocalEscala(@PathVariable @NotNull @Positive Long escalas_id, @PathVariable @NotNull @Positive Long local_id) {
 		escalaService.adicionarLocalEscala(escalas_id, local_id);
 		return new ResponseEntity<>(HttpStatus.OK);
 
@@ -122,7 +126,7 @@ public class EscalaEndpoint {
 
 	@DeleteMapping(path = "/escalas/{id}")
 	@ApiOperation(value="Remove uma escala")
-	public ResponseEntity<?> delete(@PathVariable Long id){
+	public ResponseEntity<?> delete(@PathVariable @NotNull @Positive Long id){
 		escalaService.verifyIfEscalaExists(id);
 		escalaDAO.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -132,7 +136,7 @@ public class EscalaEndpoint {
 
 	@DeleteMapping(path = "/escalas/{escalas_id}/local/{local_id}")
 	@ApiOperation(value="Remove um local de uma escala")
-	public ResponseEntity<?> removeLocalEscala(@PathVariable Long escalas_id, @PathVariable Long local_id) {
+	public ResponseEntity<?> removeLocalEscala(@PathVariable @NotNull @Positive Long escalas_id, @PathVariable @NotNull @Positive Long local_id) {
 		escalaService.removerLocalEscala(escalas_id, local_id);
 		return new ResponseEntity<>(HttpStatus.OK);
 
@@ -140,7 +144,7 @@ public class EscalaEndpoint {
 
 	@DeleteMapping(path = "/escalas/{escalas_id}/pessoa/{pessoas_id}")
 	@ApiOperation(value="Remove uma pessoa de uma escala")
-	public ResponseEntity<?> removePessoaEscala(@PathVariable Long escalas_id, @PathVariable Long pessoas_id) {
+	public ResponseEntity<?> removePessoaEscala(@PathVariable @NotNull @Positive Long escalas_id, @PathVariable @NotNull @Positive Long pessoas_id) {
 		escalaService.removerPessoalEscala(escalas_id, pessoas_id);
 		return new ResponseEntity<>(HttpStatus.OK);
 
