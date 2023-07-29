@@ -8,9 +8,13 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @SuppressWarnings("serial")
 @Entity
+@SQLDelete(sql = "UPDATE Escala SET status = 'Inativo' WHERE id = ?")
+@Where(clause = "status = 'Ativo'")
 public class Local extends AbstractEntity implements Serializable{
 
 	

@@ -7,8 +7,12 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
+@SQLDelete(sql = "UPDATE Escala SET status = 'Inativo' WHERE id = ?")
+@Where(clause = "status = 'Ativo'")
 public class User extends AbstractEntity implements Serializable{
 	@NotEmpty
 	@Column(unique = true)

@@ -1,5 +1,7 @@
 package igor.escalaspring.model;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
@@ -14,6 +16,8 @@ import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("serial")
 @Entity
+@SQLDelete(sql = "UPDATE Escala SET status = 'Inativo' WHERE id = ?")
+@Where(clause = "status = 'Ativo'")
 public class Escala extends AbstractEntity implements Serializable{
 
 
