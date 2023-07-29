@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("serial")
 @Entity
@@ -20,7 +21,7 @@ public class Escala extends AbstractEntity implements Serializable{
 	@Length(min = 5, max = 100)
 	private String nome;
 
-	@NotEmpty(message = "O campo data é obrigatorio!")
+	@NotNull(message = "O campo data é obrigatorio!")
 	private Date data;	
 	
 	public String getNome() {
