@@ -2,7 +2,7 @@ package igor.escalaspring.endpoint;
 
 import java.util.Optional;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -40,7 +40,7 @@ public class LocalEndpoint {
 	@GetMapping(path = "/local")
 	@ApiOperation(value="Retorna um local")
 	public ResponseEntity<?> listAll() {
-		return new ResponseEntity<>(localDAO.findAll(Sort.by("id").ascending()), HttpStatus.OK);
+		return new ResponseEntity<>(localDAO.findAll(), HttpStatus.OK);
 	}
 
 	//@GetMapping(path = "protected/local/{id}")

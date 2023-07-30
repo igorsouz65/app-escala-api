@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -20,11 +20,12 @@ import igor.escalaspring.service.CustomUserDetailsService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
-	public void configure(WebSecurity web) throws Exception {
+	@Bean
+	public WebSecurityCustomizer configure() throws Exception {
 		// Libera o swagger e todos os outros endpoints
-		web.ignoring().antMatchers("/swagger-ui/**", "/v3/api-docs/**", "/**");
+		return (web) -> web.ignoring().requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/**");
 	}
 
 	@Bean

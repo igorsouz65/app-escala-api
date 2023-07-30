@@ -1,9 +1,14 @@
 package igor.escalaspring.endpoint;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-
+import igor.escalaspring.model.Escala;
+import igor.escalaspring.repository.EscalaRepository;
+import igor.escalaspring.repository.PessoaRepository;
+import igor.escalaspring.service.EscalaService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -11,14 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import igor.escalaspring.error.ResourceNotFoundException;
-import igor.escalaspring.model.Escala;
-import igor.escalaspring.repository.EscalaRepository;
-import igor.escalaspring.repository.PessoaRepository;
-import igor.escalaspring.service.EscalaService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 import java.util.Date;
 
@@ -45,7 +42,7 @@ public class EscalaEndpoint {
 	@GetMapping(path = "escalas")
 	@ApiOperation(value="Retorna uma lista de escalas")
 	public ResponseEntity<?> listAll() {
-		return new ResponseEntity<>(escalaDAO.findAll(Sort.by("id").ascending()), HttpStatus.OK);
+		return new ResponseEntity<>(escalaDAO.findAll(), HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "escalas/{id}")

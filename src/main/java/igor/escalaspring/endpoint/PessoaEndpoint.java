@@ -2,7 +2,7 @@ package igor.escalaspring.endpoint;
 
 import java.util.Optional;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -43,7 +43,7 @@ public class PessoaEndpoint {
 	@GetMapping(path = "/pessoas")
 	@ApiOperation(value="Retorna uma lista de pessoas")
 	public ResponseEntity<?> listAll() {
-		return new ResponseEntity<>(pessoaDAO.findAll(Sort.by("id").ascending()), HttpStatus.OK);
+		return new ResponseEntity<>(pessoaDAO.findAll(), HttpStatus.OK);
 	}
 
 //	@GetMapping(path = "protected/pessoas/{id}")

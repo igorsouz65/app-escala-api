@@ -37,7 +37,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 		return new ResponseEntity<>(rnfDetails, HttpStatus.NOT_FOUND);
 	}
 
-	@Override
 	public ResponseEntity<Object> handleMethodArgumentNotValid(
 			MethodArgumentNotValidException manvException, HttpHeaders headers, HttpStatus status, WebRequest request) {
 		List<FieldError> fieldErros = manvException.getBindingResult().getFieldErrors();
@@ -54,8 +53,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 				.build();
 		return new ResponseEntity<>(veDetails, HttpStatus.BAD_REQUEST);
 	}
-	
-	@Override
+
 	protected ResponseEntity<Object> handleExceptionInternal(
 			Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
 

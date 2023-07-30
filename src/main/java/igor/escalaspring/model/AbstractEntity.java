@@ -4,9 +4,9 @@ import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @MappedSuperclass
 public class AbstractEntity implements Serializable{

@@ -1,6 +1,6 @@
 package igor.escalaspring.error;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 public class ValidationErrorDetails extends ErrorDetails{
 	private String field;
