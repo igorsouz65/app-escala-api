@@ -1,5 +1,7 @@
 package igor.escalaspring.model;
 
+import igor.escalaspring.enums.Status;
+import igor.escalaspring.enums.converters.StatusConverter;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
@@ -15,10 +17,9 @@ public class AbstractEntity implements Serializable{
 	private Long id;
 
 	@NotNull
-	@Length(max = 10)
-	@Pattern(regexp = "Ativo|Inativo")
 	@Column(length = 10, nullable = false)
-	private String status = "Ativo";
+	@Convert(converter = StatusConverter.class)
+	private Status status = Status.ATIVO;
 
 	public Long getId() {
 		return id;
