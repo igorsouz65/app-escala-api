@@ -70,15 +70,15 @@ public class EscalaService {
 	//-------------POST METHODS--------------
 
 	@Transactional(rollbackFor = Exception.class)
-	public EscalaDTO saveEscala(@Valid @NotNull Escala escala) {
-		return escalaMapper.toDTO(escalaDAO.save(escala));
+	public EscalaDTO saveEscala(@Valid @NotNull EscalaDTO escala){
+		return escalaMapper.toDTO(escalaDAO.save(escalaMapper.toEntity(escala)));
 	}
 
 	//-------------PUT METHODS--------------
 
-	public EscalaDTO updateEscala(@Valid @NotNull Escala escala) {
-		verifyIfEscalaExists(escala.getId());
-		return escalaMapper.toDTO(escalaDAO.save(escala));
+	public EscalaDTO updateEscala(@Valid @NotNull EscalaDTO escala) {
+		verifyIfEscalaExists(escala.id());
+		return escalaMapper.toDTO(escalaDAO.save(escalaMapper.toEntity(escala)));
 	}
 
 	//-------------Delete METHODS--------------

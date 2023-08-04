@@ -1,13 +1,13 @@
 package igor.escalaspring.endpoint;
 
 import igor.escalaspring.dto.EscalaDTO;
-import igor.escalaspring.model.Escala;
 import igor.escalaspring.service.EscalaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,13 +23,9 @@ import java.util.List;
 @Api(value="Escala API")
 public class EscalaEndpoint {
 
-	private final EscalaService escalaService;
+	@Autowired
+	private EscalaService escalaService;
 
-
-	public EscalaEndpoint(EscalaService escalaService) {
-		this.escalaService = escalaService;
-
-	}
 
 	//-------------GET METHODS--------------
 
@@ -69,7 +65,7 @@ public class EscalaEndpoint {
 	@PostMapping(path = "/escalas")
 	@Transactional(rollbackFor = Exception.class)
 	@ApiOperation(value="Salva uma escala")
-	public ResponseEntity<EscalaDTO> save(@Valid @RequestBody Escala escala) {
+	public ResponseEntity<EscalaDTO> save(@Valid @RequestBody EscalaDTO escala) {
 		return new ResponseEntity<>(escalaService.saveEscala(escala), HttpStatus.CREATED);
 	}
 
@@ -80,7 +76,7 @@ public class EscalaEndpoint {
 //	@PutMapping(path = "admin/escalas")
 	@PutMapping(path = "/escalas")
 	@ApiOperation(value="Atualiza uma escala")
-	public ResponseEntity<EscalaDTO> update(@RequestBody Escala escala) {
+	public ResponseEntity<EscalaDTO> update(@RequestBody EscalaDTO escala) {
 		escalaService.updateEscala(escala);
 		return new ResponseEntity<>(HttpStatus.OK);
 		
