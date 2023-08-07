@@ -18,20 +18,6 @@ public class PessoaService {
 	
 	@Autowired
 	private PessoaRepository pessoaDAO;
-	
-	public Local adicionarLocalPessoa(long pessoas_id, long local_id) {
-		
-		Optional<Local> localExistente = localDAO.findById(local_id);
-		Optional<Pessoa> pessoaExistente = pessoaDAO.findById(pessoas_id);
-		
-		if(localExistente.isPresent() && pessoaExistente.isPresent()) {
-			localExistente.get().getPessoas().add(pessoaExistente.get());
-			localDAO.save(localExistente.get());
-			
-			return localDAO.save(localExistente.get());
-		}
-		
-		return null;
-	}
+
 
 }

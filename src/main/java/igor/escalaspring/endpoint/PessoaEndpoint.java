@@ -89,14 +89,6 @@ public class PessoaEndpoint {
 		pessoaDAO.save(pessoa);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
-	@PutMapping(path = "/pessoas/{pessoas_id}/local/{local_id}")
-	@ApiOperation(value="Adiciona um local para uma pessoa")
-	public ResponseEntity<?> addLocalPessoa(@PathVariable Long pessoa_id, @PathVariable Long local_id){
-		pessoaService.adicionarLocalPessoa(pessoa_id, local_id);
-		return new ResponseEntity<>(HttpStatus.OK);
-		
-	}
 
 	private void verifyIfPessoaExists(Long id) {
 
