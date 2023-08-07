@@ -7,6 +7,8 @@ import igor.escalaspring.model.Pessoa;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class EscalaMapper {
@@ -34,12 +36,17 @@ public class EscalaMapper {
         escala.setNome(escalaDTO.nome());
         escala.setData(escalaDTO.data());
 
-        escalaDTO.pessoas().stream().map(pessoaDTO -> {
+        Set<Pessoa> pessoas = escalaDTO.pessoas().stream().map(pessoaDTO -> {
             var pessoa = new Pessoa();
             pessoa.setId(pessoaDTO.id());
+            pessoa.setNome(pessoaDTO.nome());
+            pessoa.setDataNascimento(pessoaDTO.dataNascimento());
+            pessoa.setIdade(pessoaDTO.idade());
+            pessoa.setTelefone(pessoaDTO.telefone());
+            pessoa.setEndereco(pessoaDTO.endereco());
+            return pessoa;}).collect(Collectors.toSet());
 
-            return null;
-        });
+        escala.setPessoas(pessoas);
 
         return escala;
     }

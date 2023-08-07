@@ -55,7 +55,7 @@ public class Local extends AbstractEntity implements Serializable{
 	public void setEscalas(List<Escala> escalas) {
 		this.escalas = escalas;
 	}
-	
+
 
 	
 	
