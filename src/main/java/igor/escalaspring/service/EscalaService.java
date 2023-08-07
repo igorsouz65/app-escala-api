@@ -90,22 +90,21 @@ public class EscalaService {
 
 
 
-	public Escala adicionarPessoaEscala(@NotNull @Positive long escalasId, @NotNull @Positive long pessoasId) {
+	public Escala adicionarPessoaEscala(@NotNull @Positive Long escalasId, @NotNull @Positive Long pessoasId) {
 		
 		Optional<Escala> escalaExistente = escalaDAO.findById(escalasId);
 		Optional<Pessoa> pessoaExistente = pessoaDAO.findById(pessoasId);
 		
 		if(escalaExistente.isPresent() && pessoaExistente.isPresent()) {
 			escalaExistente.get().getPessoas().add(pessoaExistente.get());
-			escalaDAO.save(escalaExistente.get());
 			
 			return escalaDAO.save(escalaExistente.get());
 		}
 		
-		return null;
+		return escalaDAO.save(escalaExistente.get());
 	}
 
-	public Escala adicionarLocalEscala(@NotNull @Positive long escalasId, @NotNull @Positive long localId) {
+	public Escala adicionarLocalEscala(@NotNull @Positive Long escalasId, @NotNull @Positive Long localId) {
 
 		Optional<Escala> escalaExistente = escalaDAO.findById(escalasId);
 		Optional<Local> localExistente = localDAO.findById(localId);
@@ -120,7 +119,7 @@ public class EscalaService {
 		return null;
 	}
 
-	public Escala removerLocalEscala(@NotNull @Positive long escalasId, @NotNull @Positive long localId){
+	public Escala removerLocalEscala(@NotNull @Positive Long escalasId, @NotNull @Positive Long localId){
 		Optional<Escala> escalaExistente = escalaDAO.findById(escalasId);
 		Optional<Local> localExistente = localDAO.findById(localId);
 
@@ -135,25 +134,27 @@ public class EscalaService {
 
 	}
 
-	public Escala removerPessoalEscala(@NotNull @Positive long escalasId, @NotNull @Positive long pessoasId){
+	public Escala removerPessoalEscala(@NotNull @Positive Long escalasId, @NotNull @Positive Long pessoasId){
 		Optional<Escala> escalaExistente = escalaDAO.findById(escalasId);
 		Optional<Pessoa> pessoaExistente = pessoaDAO.findById(pessoasId);
 
 		if(escalaExistente.isPresent() && pessoaExistente.isPresent()) {
+			escalaExistente.get().getPessoas().size();
 			escalaExistente.get().getPessoas().remove(pessoaExistente.get());
-			escalaDAO.save(escalaExistente.get());
+
 
 			return escalaDAO.save(escalaExistente.get());
 		}
 
-		return null;
+		return escalaDAO.save(escalaExistente.get());
 
 	}
 
 	public void verifyIfEscalaExists(@NotNull @Positive Long id) {
 
-		if (escalaDAO.findById(id).isPresent())
-			throw new ResourceNotFoundException("Escala not found for ID: " + id);
+		if (escalaDAO.findById(id).isPresent()){
+			return;
+		} throw new ResourceNotFoundException("Escala not found for ID: " + id);
 	}
 	
 }

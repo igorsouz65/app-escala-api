@@ -1,8 +1,9 @@
 package igor.escalaspring.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,21 +13,24 @@ import jakarta.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.Length;
 
 
 @SuppressWarnings("serial")
 @Entity
-@SQLDelete(sql = "UPDATE Escala SET status = 'Inativo' WHERE id = ?")
+@SQLDelete(sql = "UPDATE Pessoa SET status = 'Inativo' WHERE id = ?")
 @Where(clause = "status = 'Ativo'")
 public class Pessoa extends AbstractEntity implements Serializable{
 
 
 	@NotEmpty(message = "O campo nome é obrigatorio!")
+	@Length(min = 5, max = 100)
 	private String nome;
 
 	@NotEmpty(message = "A data de nascimento é obrigatorio!")
-	private Date dataNascimento;
-	
+	private LocalDateTime dataNascimento;
+
+	@NotEmpty(message = "O campo idade é obrigatorio!")
 	private int idade;
 
 	@NotEmpty(message = "O campo telefone é obrigatorio!")
@@ -36,10 +40,7 @@ public class Pessoa extends AbstractEntity implements Serializable{
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "pessoas", fetch=FetchType.EAGER)
-	private List<Escala> escalas;
-	
-	@ManyToMany(fetch=FetchType.LAZY)
-	private List<Local> local;
+	private Set<Escala> escalas;
 	
 	
 	
@@ -56,11 +57,11 @@ public class Pessoa extends AbstractEntity implements Serializable{
 		this.nome = nome;
 	}
 
-	public Date getDataNascimento() {
+	public LocalDateTime getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(LocalDateTime dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
@@ -88,19 +89,11 @@ public class Pessoa extends AbstractEntity implements Serializable{
 		this.endereco = endereco;
 	}
 	
-	public List<Local> getLocal() {
-		return local;
-	}
-	
-	public void setLocal(List<Local> local) {
-		this.local = local;
-	}
-	
-	public List<Escala> getEscalas() {
+	public Set<Escala> getEscalas() {
 		return escalas;
 	}
 	
-	public void setEscala(List<Escala> escalas) {
+	public void setEscala(Set<Escala> escalas) {
 		this.escalas = escalas;
 	}
 	

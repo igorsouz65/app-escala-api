@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,40 +27,40 @@ public class Escala extends AbstractEntity implements Serializable{
 	private String nome;
 
 	@NotNull(message = "O campo data é obrigatorio!")
-	private Date data;	
-	
+	private Date data;
+
 	public String getNome() {
 		return nome;
 	}
-	
+
 	@ManyToMany(fetch=FetchType.EAGER)
-	private List<Pessoa> pessoas;
-	
-	@ManyToMany(fetch=FetchType.LAZY)
+	private Set<Pessoa> pessoas;
+
+	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Local> local;
 
-	
-	
+
+
 	public List<Local> getLocal() {
 		return local;
 	}
-	
+
 	public void setLocal(List<Local> local) {
 		this.local = local;
 	}
-	
+
 	public Escala() {
 		super();
 	}
 
-	public List<Pessoa> getPessoas() {
+	public Set<Pessoa> getPessoas() {
 		return pessoas;
 	}
-	
-	public void setPessoas(List<Pessoa> pessoas) {
+
+	public void setPessoas(Set<Pessoa> pessoas) {
 		this.pessoas = pessoas;
 	}
-	
+
 
 	public void setNome(String nome) {
 		this.nome = nome;

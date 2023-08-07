@@ -27,10 +27,6 @@ public class Local extends AbstractEntity implements Serializable{
 	@ManyToMany(mappedBy = "local")
 	private List<Escala> escalas;
 	
-	@JsonIgnore
-	@ManyToMany(mappedBy = "local")
-	private List<Pessoa> pessoas;
-	
 	
 	public Local() {
 		super();
@@ -60,13 +56,6 @@ public class Local extends AbstractEntity implements Serializable{
 		this.escalas = escalas;
 	}
 	
-	public List<Pessoa> getPessoas() {
-		return pessoas;
-	}
-
-	public void setPessoas(List<Pessoa> pessoas) {
-		this.pessoas = pessoas;
-	}
 
 	
 	

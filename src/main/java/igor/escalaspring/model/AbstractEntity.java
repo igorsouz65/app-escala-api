@@ -2,13 +2,10 @@ package igor.escalaspring.model;
 
 import igor.escalaspring.enums.Status;
 import igor.escalaspring.enums.converters.StatusConverter;
-import org.hibernate.validator.constraints.Length;
-
-import java.io.Serializable;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+
+import java.io.Serializable;
 
 @MappedSuperclass
 public class AbstractEntity implements Serializable{

@@ -82,7 +82,7 @@ public class EscalaEndpoint {
 		
 	}
 
-	@PutMapping(path = "/escalas/{escalas_id}/pessoa/{pessoas_id}")
+	@PutMapping(path = "/escalas/{escalasId}/pessoa/{pessoasId}")
 	@ApiOperation(value="Adiciona uma pessoa a uma escala")
 	public ResponseEntity<EscalaDTO> addPessoaEscala(@PathVariable @NotNull @Positive Long escalasId, @PathVariable @NotNull @Positive Long pessoasId) {
 		escalaService.adicionarPessoaEscala(escalasId, pessoasId);
@@ -118,7 +118,7 @@ public class EscalaEndpoint {
 
 	}
 
-	@DeleteMapping(path = "/escalas/{escalas_id}/pessoa/{pessoas_id}")
+	@DeleteMapping(path = "/escalas/{escalasId}/pessoa/{pessoasId}")
 	@ApiOperation(value="Remove uma pessoa de uma escala")
 	public ResponseEntity<HttpStatus> removePessoaEscala(@PathVariable @NotNull @Positive Long escalasId, @PathVariable @NotNull @Positive Long pessoasId) {
 		escalaService.removerPessoalEscala(escalasId, pessoasId);
